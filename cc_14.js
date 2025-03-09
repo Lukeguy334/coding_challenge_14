@@ -4,6 +4,8 @@ const ticketContainer = document.getElementById('ticketContainer');
 function addSupportTicket(name, issue, priority) {
     const ticket = document.createElement('div');
     ticket.className = 'support-ticket';
+
+    // Add high-priority class if the ticket priority is 'High'
     if (priority.toLowerCase() === 'high') {
         ticket.classList.add('high-priority');
     }
