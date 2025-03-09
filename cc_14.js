@@ -48,3 +48,54 @@ ticketContainer.addEventListener('click', (event) => {
         console.log('Support ticket clicked!');
     }
 });
+
+// Task 5: Inline Editing of Support Tickets
+function enableInlineEditing(ticket) {
+    ticket.addEventListener('dblclick', (event) => {
+        event.stopPropagation();
+
+        const heading = ticket.querySelector('h2');
+        const description = ticket.querySelector('p');
+        const priorityLabel = ticket.querySelector('span');
+
+        const nameInput = document.createElement('input');
+        nameInput.value = heading.textContent;
+
+        const issueInput = document.createElement('input');
+        issueInput.value = description.textContent;
+
+        const priorityInput = document.createElement('input');
+        priorityInput.value = priorityLabel.textContent.replace('Priority: ', '');
+
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.onclick = (event) => {
+            event.stopPropagation();
+            heading.textContent = nameInput.value;
+            description.textContent = issueInput.value;
+            priorityLabel.textContent = `Priority: ${priorityInput.value}`;
+
+            ticket.replaceChild(heading, nameInput);
+            ticket.replaceChild(description, issueInput);
+            ticket.replaceChild(priorityLabel, priorityInput);
+            ticket.removeChild(saveButton);
+        };
+
+        ticket.replaceChild(nameInput, heading);
+        ticket.replaceChild(issueInput, description);
+        ticket.replaceChild(priorityInput, priorityLabel);
+        ticket.appendChild(saveButton);
+    });
+}
+
+// Load sample support tickets
+window.onload = () => {
+    const tickets = [
+        { name: 'Alice Walker', issue: 'Cannot reset password', priority: 'High' },
+        { name: 'Bob Johnson', issue: 'Email not working', priority: 'Medium' },
+        { name: 'Charlie Smith', issue: 'Laptop overheating', priority: 'Low' },
+        { name: 'Diana Prince', issue: 'VPN connection issues', priority: 'High' }
+    ];
+
+    tickets.forEach(ticket => addSupportTicket(ticket.name, ticket.issue, ticket.priority));
+};
