@@ -1,18 +1,13 @@
 // Task 2: Adding Support Tickets Dynamically
 const ticketContainer = document.getElementById('ticketContainer');
 
-// Function to add support tickets dynamically
 function addSupportTicket(name, issue, priority) {
-    // Create the ticket div
     const ticket = document.createElement('div');
     ticket.className = 'support-ticket';
-
-    // Add priority class if needed
     if (priority.toLowerCase() === 'high') {
         ticket.classList.add('high-priority');
     }
 
-    // Create ticket elements (heading, description, priority label, resolve button)
     const heading = document.createElement('h2');
     heading.textContent = name;
 
@@ -24,32 +19,27 @@ function addSupportTicket(name, issue, priority) {
 
     const resolveButton = document.createElement('button');
     resolveButton.textContent = 'Resolve';
-    
-    // Resolve button event listener to remove the ticket
     resolveButton.onclick = (event) => {
-        event.stopPropagation(); // Prevent event bubbling
-        ticketContainer.removeChild(ticket); // Remove the ticket from container
+        event.stopPropagation();
+        ticketContainer.removeChild(ticket);
     };
 
-    // Append elements to ticket
     ticket.appendChild(heading);
     ticket.appendChild(description);
     ticket.appendChild(priorityLabel);
     ticket.appendChild(resolveButton);
-
-    // Append the ticket to the ticket container
     ticketContainer.appendChild(ticket);
+
+    // Enable inline editing
+    enableInlineEditing(ticket);
 }
 
 // Task 3: Highlighting High Priority Tickets
 function highlightHighPriorityTickets() {
-    // Get all tickets with the 'high-priority' class
     const highPriorityTickets = Array.from(document.querySelectorAll('.high-priority'));
-
-    // Highlight the high-priority tickets
     highPriorityTickets.forEach(ticket => {
-        ticket.style.border = '2px solid red'; // Red border
-        ticket.style.backgroundColor = '#ffcccc'; // Light red background for high priority
+        ticket.style.border = '2px solid red';
+        ticket.style.backgroundColor = '#ffcccc';
     });
 }
 
@@ -62,15 +52,16 @@ ticketContainer.addEventListener('click', (event) => {
 
 // Task 5: Inline Editing of Support Tickets
 function enableInlineEditing(ticket) {
+    // Double-click event for editing the ticket
     ticket.addEventListener('dblclick', (event) => {
-        event.stopPropagation();
+        event.stopPropagation(); // Prevent event bubbling
 
-        // Get current content of the ticket
+        // Get current ticket data
         const heading = ticket.querySelector('h2');
         const description = ticket.querySelector('p');
         const priorityLabel = ticket.querySelector('span');
 
-        // Create input fields for editing
+        // Create input fields to edit ticket data
         const nameInput = document.createElement('input');
         nameInput.value = heading.textContent;
 
@@ -80,14 +71,15 @@ function enableInlineEditing(ticket) {
         const priorityInput = document.createElement('input');
         priorityInput.value = priorityLabel.textContent.replace('Priority: ', '');
 
+        // Create a save button to apply changes
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
-        
-        // Save changes and update ticket
-        saveButton.onclick = (event) => {
-            event.stopPropagation();
 
-            // Update content of ticket
+        // Save button click event to save the changes
+        saveButton.onclick = (event) => {
+            event.stopPropagation(); // Prevent event bubbling
+
+            // Update ticket with new values
             heading.textContent = nameInput.value;
             description.textContent = issueInput.value;
             priorityLabel.textContent = `Priority: ${priorityInput.value}`;
@@ -99,7 +91,7 @@ function enableInlineEditing(ticket) {
             ticket.removeChild(saveButton);
         };
 
-        // Replace static content with inputs
+        // Replace static text with input fields and save button
         ticket.replaceChild(nameInput, heading);
         ticket.replaceChild(issueInput, description);
         ticket.replaceChild(priorityInput, priorityLabel);
@@ -107,9 +99,8 @@ function enableInlineEditing(ticket) {
     });
 }
 
-// Example: Load sample tickets on window load
+// Load sample support tickets when the page loads
 window.onload = () => {
-    // Load sample tickets
     const tickets = [
         { name: 'Alice Walker', issue: 'Cannot reset password', priority: 'High' },
         { name: 'Bob Johnson', issue: 'Email not working', priority: 'Medium' },
@@ -117,9 +108,5 @@ window.onload = () => {
         { name: 'Diana Prince', issue: 'VPN connection issues', priority: 'High' }
     ];
 
-    // Add each ticket dynamically
     tickets.forEach(ticket => addSupportTicket(ticket.name, ticket.issue, ticket.priority));
-
-    // Highlight high-priority tickets after loading
-    highlightHighPriorityTickets();
 };
