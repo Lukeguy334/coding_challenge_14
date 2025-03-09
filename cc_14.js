@@ -62,16 +62,15 @@ ticketContainer.addEventListener('click', (event) => {
 
 // Task 5: Inline Editing of Support Tickets
 function enableInlineEditing(ticket) {
-    // Add double-click event listener for editing
     ticket.addEventListener('dblclick', (event) => {
-        event.stopPropagation(); // Prevent event bubbling to parent elements
+        event.stopPropagation();
 
         // Get current content of the ticket
         const heading = ticket.querySelector('h2');
         const description = ticket.querySelector('p');
         const priorityLabel = ticket.querySelector('span');
 
-        // Create input fields to replace static content
+        // Create input fields for editing
         const nameInput = document.createElement('input');
         nameInput.value = heading.textContent;
 
@@ -81,30 +80,46 @@ function enableInlineEditing(ticket) {
         const priorityInput = document.createElement('input');
         priorityInput.value = priorityLabel.textContent.replace('Priority: ', '');
 
-        // Create a save button to save the edited content
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
-
-        // Save button event listener to update the ticket
+        
+        // Save changes and update ticket
         saveButton.onclick = (event) => {
-            event.stopPropagation(); // Prevent event bubbling
+            event.stopPropagation();
 
-            // Update the ticket with the new values
+            // Update content of ticket
             heading.textContent = nameInput.value;
             description.textContent = issueInput.value;
             priorityLabel.textContent = `Priority: ${priorityInput.value}`;
 
-            // Replace the input fields with the updated static content
+            // Replace input fields with updated content
             ticket.replaceChild(heading, nameInput);
             ticket.replaceChild(description, issueInput);
             ticket.replaceChild(priorityLabel, priorityInput);
             ticket.removeChild(saveButton);
         };
 
-        // Replace the static content with input fields and save button
+        // Replace static content with inputs
         ticket.replaceChild(nameInput, heading);
         ticket.replaceChild(issueInput, description);
         ticket.replaceChild(priorityInput, priorityLabel);
         ticket.appendChild(saveButton);
     });
 }
+
+// Example: Load sample tickets on window load
+window.onload = () => {
+    // Load sample tickets
+    const tickets = [
+        { name: 'Alice Walker', issue: 'Cannot reset password', priority: 'High' },
+        { name: 'Bob Johnson', issue: 'Email not working', priority: 'Medium' },
+        { name: 'Charlie Smith', issue: 'Laptop overheating', priority: 'Low' },
+        { name: 'Diana Prince', issue: 'VPN connection issues', priority: 'High' }
+    ];
+
+    // Add each ticket dynamically
+    tickets.forEach(ticket => addSupportTicket(ticket.name, ticket.issue, ticket.priority));
+
+    // Highlight high-priority tickets after loading
+    highlightHighPriorityTickets();
+};
