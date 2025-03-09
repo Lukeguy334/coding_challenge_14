@@ -32,3 +32,12 @@ function addSupportTicket(name, issue, priority) {
 
     enableInlineEditing(ticket);
 }
+
+// Task 3: Highlighting High Priority Tickets
+function highlightHighPriorityTickets() {
+    const highPriorityTickets = Array.from(document.querySelectorAll('.high-priority'));
+    highPriorityTickets.forEach(ticket => {
+        ticket.style.border = '2px solid red';
+        ticket.style.backgroundColor = '#ffcccc';
+    });
+}
