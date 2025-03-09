@@ -9,6 +9,11 @@
     background-color: lightgray;
 }
 
+.high-priority {
+    border: 2px solid red;      
+    background-color: #ffcccc;  
+}
+
 button {
     margin-top: 10px;
     padding: 5px;
