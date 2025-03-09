@@ -41,3 +41,10 @@ function highlightHighPriorityTickets() {
         ticket.style.backgroundColor = '#ffcccc';
     });
 }
+
+// Task 4: Implementing Ticket Resolution with Event Bubbling
+ticketContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('support-ticket')) {
+        console.log('Support ticket clicked!');
+    }
+});
