@@ -48,26 +48,10 @@ function highlightHighPriorityTickets() {
 
     // Highlight the high-priority tickets
     highPriorityTickets.forEach(ticket => {
-        ticket.style.border = '2px solid red';
+        ticket.style.border = '2px solid red'; // Red border
         ticket.style.backgroundColor = '#ffcccc'; // Light red background for high priority
     });
 }
-
-// Example: Load sample tickets on window load
-window.onload = () => {
-    const tickets = [
-        { name: 'Alice Walker', issue: 'Cannot reset password', priority: 'High' },
-        { name: 'Bob Johnson', issue: 'Email not working', priority: 'Medium' },
-        { name: 'Charlie Smith', issue: 'Laptop overheating', priority: 'Low' },
-        { name: 'Diana Prince', issue: 'VPN connection issues', priority: 'High' }
-    ];
-
-    tickets.forEach(ticket => addSupportTicket(ticket.name, ticket.issue, ticket.priority));
-
-    // Highlight high-priority tickets after loading
-    highlightHighPriorityTickets();
-};
-
 
 // Task 4: Implementing Ticket Resolution with Event Bubbling
 ticketContainer.addEventListener('click', (event) => {
@@ -81,10 +65,12 @@ function enableInlineEditing(ticket) {
     ticket.addEventListener('dblclick', (event) => {
         event.stopPropagation();
 
+        // Get current content of the ticket
         const heading = ticket.querySelector('h2');
         const description = ticket.querySelector('p');
         const priorityLabel = ticket.querySelector('span');
 
+        // Create input fields for editing
         const nameInput = document.createElement('input');
         nameInput.value = heading.textContent;
 
@@ -96,18 +82,24 @@ function enableInlineEditing(ticket) {
 
         const saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
+        
+        // Save changes and update ticket
         saveButton.onclick = (event) => {
             event.stopPropagation();
+
+            // Update content of ticket
             heading.textContent = nameInput.value;
             description.textContent = issueInput.value;
             priorityLabel.textContent = `Priority: ${priorityInput.value}`;
 
+            // Replace input fields with updated content
             ticket.replaceChild(heading, nameInput);
             ticket.replaceChild(description, issueInput);
             ticket.replaceChild(priorityLabel, priorityInput);
             ticket.removeChild(saveButton);
         };
 
+        // Replace static content with inputs
         ticket.replaceChild(nameInput, heading);
         ticket.replaceChild(issueInput, description);
         ticket.replaceChild(priorityInput, priorityLabel);
@@ -115,8 +107,9 @@ function enableInlineEditing(ticket) {
     });
 }
 
-// Load sample support tickets
+// Example: Load sample tickets on window load
 window.onload = () => {
+    // Load sample tickets
     const tickets = [
         { name: 'Alice Walker', issue: 'Cannot reset password', priority: 'High' },
         { name: 'Bob Johnson', issue: 'Email not working', priority: 'Medium' },
@@ -124,5 +117,9 @@ window.onload = () => {
         { name: 'Diana Prince', issue: 'VPN connection issues', priority: 'High' }
     ];
 
+    // Add each ticket dynamically
     tickets.forEach(ticket => addSupportTicket(ticket.name, ticket.issue, ticket.priority));
+
+    // Highlight high-priority tickets after loading
+    highlightHighPriorityTickets();
 };
